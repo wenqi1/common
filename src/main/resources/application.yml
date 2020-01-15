@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: common_project
+  profiles:
+    active: @package.environment@
+
+server:
+  port: 8080
+
+mybatis:
+  type-aliases-package: com.learn.common.entity
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    use-generated-keys: true
+
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true  #分页合理化参数，默认值为false。当该参数设置为 true 时，pageNum<=0 时会查询第一页， pageNum>pages，会查询最后一页
+  params: count=countSql
+  supportMethodsArguments: true
+
+#redis是否使用集群
+redis:
+  isCluster: false

@@ -1,0 +1,48 @@
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://localhost:3306/learn_db?useUnicode=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&characterEncoding=UTF-8
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    dbcp2:  #数据库连接池配置
+      min-idle: 5
+      initial-size: 5
+      max-total: 5
+      max-wait-millis: 200
+  rabbitmq:
+    addresses: 192.168.199.209:5672
+    username: admin
+    password: 123456
+    virtual-host: /
+    connection-timeout: 1000S
+    publisher-confirms: true
+    publisher-returns: true
+    template:
+      mandatory: true
+      retry:
+        enabled: true   #重试机制
+        initial-interval: 1S   #间隔时长
+        max-attempts: 5   #最多重试几次
+        max-interval: 10S #最大间隔时长
+        multiplier: 2   #间隔的倍数，如：第一次间隔2秒，第二次间隔4秒
+    listener:
+      simple:
+        acknowledge-mode: manual   #手工签收
+        concurrency: 5     #消费者的数量
+        max-concurrency: 10   #最大消费者的数量
+        prefetch: 1  #每次从队列获取的消息数量
+        default-requeue-rejected: true     #消费失败，自动重新入队
+
+redis:
+  single:
+    password: 123456
+    clientName: test-redis
+    address: "redis://192.168.199.209:6379"
+  cluster:
+    password: 123456
+    clientName: test-redis
+    nodeAddresses:
+      - "redis://127.0.0.1:7001"
+      - "redis://127.0.0.1:7002"
+      - "redis://127.0.0.1:7003"
